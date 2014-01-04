@@ -30,13 +30,17 @@ class RandomProxy(object):
 
         self.proxies = {}
         for l in f.readlines():
-            parts = re.match('(\w+://)(\w+:\w+@)?(.+)', l)
+            # parts = re.match('(\w+://)(\w+:\w+@)?(.+)', l)
 
-            # Cut trailing @
-            if parts[1]:
-                parts[1] = parts[1][:-1]
+            # # Cut trailing @
+            # if parts[1]:
+            #     parts[1] = parts[1][:-1]
 
-            self.proxies[parts[0] + parts[2]] = parts[1]
+            # self.proxies[parts[0] + parts[2]] = parts[1]
+            if parts.group(2) is None:
+                self.proxies[parts.group(0)] = parts.group(1)
+            else:
+                self.proxies[parts.group(0)+parts.group(2)] = parts.group(1)
 
         f.close()
 
